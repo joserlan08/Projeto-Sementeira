@@ -4,13 +4,12 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Controller\AppController;
-use Cake\ORM\TableRegistry;
 
 class CartItemsController extends AppController
 {
     public function index()
     {
-        $plantsTable = TableRegistry::getTableLocator()->get('Plants');
+        $plantsTable = $this->getTableLocator()->get('Plants');
         $plants = $plantsTable->find('all')->toArray();
 
         $cartItems = $this->CartItems->find('all', [
@@ -34,7 +33,7 @@ class CartItemsController extends AppController
     {
         $this->request->allowMethod(['post', 'get']);
 
-        $plantsTable = TableRegistry::getTableLocator()->get('Plants');
+        $plantsTable = $this->getTableLocator()->get('Plants');
         $plant = $plantsTable->get($plantId);
 
         $existingItem = $this->CartItems->find()
@@ -63,7 +62,7 @@ class CartItemsController extends AppController
 
     public function increase($id = null)
     {
-        $plantsTable = TableRegistry::getTableLocator()->get('Plants');
+        $plantsTable = $this->getTableLocator()->get('Plants');
 
         $cartItem = $this->CartItems->get($id, ['contain' => ['Plants']]);
         $plant = $cartItem->plant;
@@ -83,7 +82,7 @@ class CartItemsController extends AppController
 
     public function decrease($id = null)
     {
-        $plantsTable = TableRegistry::getTableLocator()->get('Plants');
+        $plantsTable = $this->getTableLocator()->get('Plants');
 
         $cartItem = $this->CartItems->get($id, ['contain' => ['Plants']]);
         $plant = $cartItem->plant;
@@ -106,7 +105,7 @@ class CartItemsController extends AppController
 
     public function edit($id = null)
     {
-        $plantsTable = TableRegistry::getTableLocator()->get('Plants');
+        $plantsTable = $this->getTableLocator()->get('Plants');
 
         $cartItem = $this->CartItems->get($id, ['contain' => []]);
         if ($this->request->is(['patch', 'post', 'put'])) {
@@ -126,7 +125,7 @@ class CartItemsController extends AppController
     {
         $this->request->allowMethod(['post', 'delete']);
 
-        $plantsTable = TableRegistry::getTableLocator()->get('Plants');
+        $plantsTable = $this->getTableLocator()->get('Plants');
 
         $cartItem = $this->CartItems->get($id, ['contain' => ['Plants']]);
         $plant = $cartItem->plant;
@@ -143,3 +142,4 @@ class CartItemsController extends AppController
         return $this->redirect($this->referer());
     }
 }
+
